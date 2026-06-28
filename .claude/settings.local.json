@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:imnews.imbc.com)",
+      "WebSearch",
+      "WebFetch(domain:kbthink.com)",
+      "PowerShell(if \\(-not \\(Test-Path \"reports\"\\)\\) { New-Item -ItemType Directory -Force \"reports\" }; Write-Output \"reports 디렉토리 확인\")"
+    ]
+  }
+}
