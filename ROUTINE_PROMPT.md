@@ -1,31 +1,21 @@
-# 루틴에 붙여넣을 프롬프트 (claude.ai/code/routines → New routine → Prompt)
-
-아래 한 단락을 루틴의 Prompt 칸에 그대로 붙여넣으세요.
-(레포에 CLAUDE.md가 있으므로 자세한 절차는 자동으로 따라갑니다. 그래도 무인 실행 안정성을
-위해 핵심 지시를 한 번 더 명시합니다.)
+# 루틴 프롬프트 v2 (claude.ai/code/routines → 기존 루틴 Edit → Prompt 전체 교체)
 
 ---
-
-이 레포의 CLAUDE.md 지침에 따라 "데일리 시장 브리핑"을 작성하라.
-먼저 오늘 날짜(KST)와 전날(주말·공휴일이면 직전 영업일) 범위를 확정한 뒤,
-financial-markets-analyst, realestate-market-analyst, govt-policy-analyst,
-redevelopment-analyst, highend-market-analyst 5개 서브에이전트를 모두 호출해
-각 도메인의 전날 동향을 조사시켜라. 각 결과를 검수하고(출처·날짜 없는 수치는
-"확인 필요"로 표기, 추정·창작 금지), CLAUDE.md의 출력 형식대로 하나의 한국어
-보고서로 종합하라. 보고서를 reports/{오늘날짜}.md 로 저장하라(필요 시
-claude/ 브랜치로 푸시·PR 생성). Notion 또는 Gmail 커넥터가 연결돼 있으면
-같은 내용을 그 채널로도 발송하라. 사실과 출처 중심으로, 투자 권유는 하지 마라.
-
+이 레포의 CLAUDE.md(v2) STEP 0~6을 순서대로 빠짐없이 수행하라.
+STEP 0에서 반드시 Bash로 `TZ=Asia/Seoul date`를 실행해 KST 날짜를 확정하고, 토·일이면 종료하라.
+STEP 1에서 Notion 「CLAV 브리핑 시스템 메모리」를 읽고(없으면 MEMORY_SCHEMA.md대로 생성),
+6개 서브에이전트(financial-markets-analyst, realestate-market-analyst, govt-policy-analyst,
+redevelopment-analyst, highend-market-analyst, 그리고 그 결과를 받은 clav60-sales-strategist)에게
+메모리 발췌를 함께 넘겨라. 같은 날짜 Notion 페이지가 있으면 갱신하고 새로 만들지 마라.
+STEP 6 메모리 갱신(교훈 로그·스냅샷·확인 필요 큐·경쟁상품 트래커)을 끝내기 전에는 종료하지 마라.
+사실과 출처 중심, 추정·창작 금지, 투자 권유 금지.
 ---
 
-## 트리거 설정
-- 유형: Schedule (스케줄)
-- 빈도: Daily (매일)
-- 시각: 오전 8:30 (로컬 KST — 자동 변환됨)
-- 참고: 스태거로 인해 8:3X분에 시작될 수 있음(정상)
+## 트리거
+- 유형 Schedule / 빈도 **Weekdays(평일)** / 시각 08:30 KST
+  (cron 직접 지정 시 `30 23 * * 0-4` = UTC 일~목 23:30 = KST 월~금 08:30)
+- v1의 "Daily" 설정 때문에 토요일 발행이 발생했음 → 반드시 평일로 변경
 
-## 레포/환경 설정
-- Repositories: 이 레포 연결
-- Environment: **네트워크(웹) 접근 허용** — 서브에이전트의 WebSearch/WebFetch가 동작해야
-  실제 데이터를 수집할 수 있습니다.
-- Connectors(선택): Notion / Gmail — 보고서 발송용
+## 환경
+- Network access: **Full(전체 허용)** — Trusted/제한 목록이면 WebFetch가 대부분 실패함
+- Connectors: Notion(필수), PlayMCP(카카오톡)
