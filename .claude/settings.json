@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "Bash(TZ=Asia/Seoul date:*)",
+      "Bash(date:*)",
+      "Bash(mkdir:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Task",
+      "mcp__notion",
+      "mcp__Notion",
+      "mcp__PlayMCP"
+    ]
+  }
+}
